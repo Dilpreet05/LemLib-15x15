@@ -1,5 +1,20 @@
 #include "main.h"
+#include "pros/misc.h"
+// #include "robodash/views/console.hpp"
+// #include "robodash/views/selector.hpp"
+#include "robodash/api.h"
 
+rd::Selector selector({
+
+	{"Side Rush"},
+	{"Middle Rush"},
+	{"Max Points"},
+	{"Skills"}
+
+});
+
+rd::Console console;
+// Gif* gif;
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -8,8 +23,48 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+	console.focus();
+   	console.println("Initializing robot...");
+	// pros::lcd::initialize();
+    chassis.calibrate(); // calibrate sensors
+	selector.focus();
+	// console.println("Done.");
+
+
+    // pros::Task screenTask([&]() {
+    //     while (true) {
+    //         // print robot location to the brain screen
+	// 		console.printf("X: %f\n", chassis.getPose().x);
+	// 		console.printf("Y: %f\n",chassis.getPose().y);
+	// 		console.printf("Theta: %f", chassis.getPose().theta);
+    //         // pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+    //         // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+    //         // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+
+    //         // log position telemetry
+    //         lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+    //         // delay to save resources
+    //         pros::delay(50);
+	// 		console.clear();
+    //     }
+    // });
+
+
+    // thread to for brain screen and position logging
+
+    // pros::Task screenTask([&]() {
+    //     while (true) {
+    //         // print robot location to the brain screen
+    //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+    //         // log position telemetry
+    //         lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+    //         // delay to save resources
+    //         pros::delay(50);
+    //     }
+    // });
+
 
 }
 
@@ -42,7 +97,13 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+
+	console.println("Running auton...");
+	selector.run_auton();
+
+
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -62,7 +123,9 @@ void opcontrol() {
 
 	while (true) {
 
-		
+		chassis.arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), pros::E_CONTROLLER_ANALOG_RIGHT_X);
+		intakeControl();
+
 
 	}
 }
