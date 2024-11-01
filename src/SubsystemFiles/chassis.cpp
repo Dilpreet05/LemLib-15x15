@@ -110,7 +110,7 @@ lemlib::Drivetrain DRIVETRAIN(&leftMotors,  // left motor group
  *
  *
  */
-pros::Imu IMU(0);
+pros::Imu IMU(6);
 
 /**
  *
@@ -124,8 +124,8 @@ pros::Imu IMU(0);
  *
  *
  */
-pros::Rotation horizontalTrackingWheelSensor(0);
-pros::Rotation verticalTrackingWheelSensor(0);
+pros::Rotation horizontalTrackingWheelSensor(11);
+pros::Rotation verticalTrackingWheelSensor(12);
 
 /**
  *

@@ -2,7 +2,7 @@
 #include "pros/misc.h"
 // #include "robodash/views/console.hpp"
 // #include "robodash/views/selector.hpp"
-#include "robodash/api.h"
+// #include "robodash/api.h"
 
 rd::Selector selector({
 
@@ -26,9 +26,9 @@ void initialize() {
 	console.focus();
    	console.println("Initializing robot...");
 	// pros::lcd::initialize();
-    chassis.calibrate(); // calibrate sensors
-	selector.focus();
-	// console.println("Done.");
+    // chassis.calibrate(); // calibrate sensors
+	pros::delay(2000);
+	console.println("Done.");
 
 
     // pros::Task screenTask([&]() {
@@ -84,7 +84,7 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {	selector.focus();}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -120,6 +120,7 @@ void autonomous() {
  */
 void opcontrol() {
 
+	console.focus();
 
 	while (true) {
 
@@ -127,5 +128,6 @@ void opcontrol() {
 		intakeControl();
 
 
+        pros::delay(25);
 	}
 }
