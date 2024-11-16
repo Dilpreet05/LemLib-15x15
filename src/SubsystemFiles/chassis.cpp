@@ -32,14 +32,14 @@
 
  */
 
-pros::MotorGroup leftMotors({-4, -3, -2,1}, pros::MotorGearset::blue); // Motor ports {4,3,2} at 600RPM
+pros::MotorGroup leftMotors({10}, pros::MotorGearset::blue); // Motor ports {4,3,2} at 600RPM
 
 /**
  ** Same logic from leftMotors applies to rightMotors, including arguments and motor gearsets.
  ** rightMotors represents the grouping of motors that are on the RIGHT side of the DRIVETRAIN
  ** Positive motor ports because the motors should be spinning clockwise for the robot to move forward.
  */
-pros::MotorGroup rightMotors({7, 8, 9,-10}, pros::MotorGearset::blue); // Motor ports {8,9,10} at 600RPM (Blue gearset)
+pros::MotorGroup rightMotors({-1}, pros::MotorGearset::blue); // Motor ports {8,9,10} at 600RPM (Blue gearset)
 
 /* End of Motor Group declaration and initialization */
 
