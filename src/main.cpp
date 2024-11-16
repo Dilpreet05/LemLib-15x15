@@ -1,20 +1,7 @@
 #include "main.h"
+#include "pros/colors.hpp"
 #include "pros/misc.h"
-// #include "robodash/views/console.hpp"
-// #include "robodash/views/selector.hpp"
-// #include "robodash/api.h"
 
-rd::Selector selector({
-
-	{"Side Rush"},
-	{"Middle Rush"},
-	{"Max Points"},
-	{"Skills"}
-
-});
-
-rd::Console console;
-// Gif* gif;
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -25,45 +12,42 @@ rd::Console console;
 void initialize() {
 	console.focus();
    	console.println("Initializing robot...");
+	distanceSensor.calibrate();
 	// pros::lcd::initialize();
     // chassis.calibrate(); // calibrate sensors
-	pros::delay(2000);
+	// pros::delay(2000);
 	console.println("Done.");
 
-
-    // pros::Task screenTask([&]() {
-    //     while (true) {
-    //         // print robot location to the brain screen
-	// 		console.printf("X: %f\n", chassis.getPose().x);
-	// 		console.printf("Y: %f\n",chassis.getPose().y);
-	// 		console.printf("Theta: %f", chassis.getPose().theta);
-    //         // pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-    //         // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-    //         // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-
-    //         // log position telemetry
-    //         lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
-    //         // delay to save resources
-    //         pros::delay(50);
-	// 		console.clear();
-    //     }
-    // });
+    setStakeBrake();
 
 
-    // thread to for brain screen and position logging
 
-    // pros::Task screenTask([&]() {
-    //     while (true) {
-    //         // print robot location to the brain screen
-    //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-    //         // log position telemetry
-    //         lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
-    //         // delay to save resources
-    //         pros::delay(50);
-    //     }
-    // });
+    pros::Task screenTask([&]() {
+        while (true) {
+            // print robot location to the brain screen
+			console.printf("X: %f\n", chassis.getPose().x);
+			console.printf("Y: %f\n",chassis.getPose().y);
+			console.printf("Theta: %f\n", chassis.getPose().theta);
+
+            // console.printf("Vertical Tracking Wheel (AMT): %d\n",verticalTrackingWheelSensor.get_value());
+            // console.printf("Horizontal tracking Wheel: %d\n",horizontalTrackingWheelSensor.get_angle());
+
+			// console.printf("distanceSensor reading: %f\n", getDistance());
+			// console.printf("Autoclamp boolean: %s\n", (autoclamp_active) ? "true": "false");
+			// console.printf("clamp piston value: %d\n", clampStatus);
+
+			console.printf("Color value: %lf\n",colorSensor.get_hue());
+
+
+            // log position telemetry
+            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+
+            // delay to save resources
+            pros::delay(50);
+			console.clear();
+        }
+    });
+
 
 
 }
@@ -126,8 +110,11 @@ void opcontrol() {
 
 		chassis.arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), pros::E_CONTROLLER_ANALOG_RIGHT_X);
 		intakeControl();
+        stakeControl();
+		doinkerControl();
+		clampControl();
+		toggleAutoClamp();
 
-
-        pros::delay(25);
+        pros::delay(20);
 	}
 }

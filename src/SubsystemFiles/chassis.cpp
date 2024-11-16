@@ -1,4 +1,6 @@
 #include "main.h"
+#include "pros/adi.hpp"
+#include "pros/rotation.hpp"
 
 
 /* Motor Groups declaration and initialization */
@@ -124,8 +126,8 @@ pros::Imu IMU(6);
  *
  *
  */
-pros::Rotation horizontalTrackingWheelSensor(11);
-pros::Rotation verticalTrackingWheelSensor(12);
+pros::Rotation horizontalTrackingWheelSensor(0);
+pros::adi::Encoder verticalTrackingWheelSensor('H','G',false);
 
 /**
  *
@@ -136,8 +138,8 @@ pros::Rotation verticalTrackingWheelSensor(12);
  *
  *
  */
-lemlib::TrackingWheel horizontalTrackingWheel(&horizontalTrackingWheelSensor, 1.96, 0);
-lemlib::TrackingWheel verticalTrackingWheel(&verticalTrackingWheelSensor, 1.96, 0);
+lemlib::TrackingWheel horizontalTrackingWheel(&horizontalTrackingWheelSensor, 1.9335, 0);
+lemlib::TrackingWheel verticalTrackingWheel(&verticalTrackingWheelSensor, 1.9335, 0,1024.0/360);
 
 /**
  *
@@ -150,7 +152,7 @@ lemlib::TrackingWheel verticalTrackingWheel(&verticalTrackingWheelSensor, 1.96, 
  *
  */
 lemlib::OdomSensors sensors(&verticalTrackingWheel,   // vertical tracking wheel 1, set to null
-                            nullptr,                  // vertical tracking wheel 2, set to nullptr as we are using IMEs
+                            &horizontalTrackingWheel,                  // vertical tracking wheel 2, set to nullptr as we are using IMEs
                             nullptr,                  // horizontal tracking wheel 1
                             nullptr,                  // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &IMU                      // inertial sensor

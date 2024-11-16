@@ -1,30 +1,23 @@
 #include "main.h"
+#include "pros/abstract_motor.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
 
-pros::Motor flexWheelIntakeMotor(11, pros::MotorGearset::green, pros::v5::MotorUnits::degrees);
-pros::Motor hookIntakeMotor(12, pros::MotorGearset::blue, pros::v5::MotorUnits::degrees);
-
-int hookSpeed= 105;
 
 void setIntakeBrakes(){
 
-    flexWheelIntakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    hookIntakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    intake.set_brake_mode(pros::MotorBrake::coast);
 
 }
 
 void intakeControl(){
 
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-        flexWheelIntakeMotor.move(127);
-        hookIntakeMotor.move(-hookSpeed);
+        intake.move(intakeSpeed);
     }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-        flexWheelIntakeMotor.move(-127);
-        hookIntakeMotor.move(hookSpeed);
+        intake.move(-intakeSpeed);
     }else{
-        flexWheelIntakeMotor.brake();
-        hookIntakeMotor.brake();
+        intake.brake();
     }
 
 }

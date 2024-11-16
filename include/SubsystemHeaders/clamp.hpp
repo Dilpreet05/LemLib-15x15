@@ -1,7 +1,9 @@
-#include "pros/adi.h"
-#include "pros/adi.hpp"
-
+#include "api.h"
 inline pros::adi::DigitalOut clampPiston('A',1);
-inline short status = 0;
+inline short clampStatus = 1;
 
 void clampControl();
+void toggleAutoClamp();
+
+inline bool autoclamp_active = true;
+extern pros::Task autoclamp;
