@@ -1,5 +1,4 @@
 #include "main.h"
-#include "pros/colors.hpp"
 #include "pros/misc.h"
 
 
@@ -13,6 +12,8 @@ void initialize() {
 	console.focus();
    	console.println("Initializing robot...");
 	distanceSensor.calibrate();
+	LED_Strip.init();
+	// LED_Manager.initialize();
 	// pros::lcd::initialize();
     // chassis.calibrate(); // calibrate sensors
 	// pros::delay(2000);
@@ -20,6 +21,7 @@ void initialize() {
 
     setStakeBrake();
 
+	LED_Strip.rainbow(5);
 
 
     pros::Task screenTask([&]() {
@@ -108,7 +110,7 @@ void opcontrol() {
 
 	while (true) {
 
-		chassis.arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), pros::E_CONTROLLER_ANALOG_RIGHT_X);
+		chassis.arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
 		intakeControl();
         stakeControl();
 		doinkerControl();

@@ -3,7 +3,6 @@
 
 void doinkerControl(){
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
-        doinkerStatus=!doinkerStatus;
-        doinkerPiston.set_value(doinkerStatus);
+        doinkerPiston.set_value(doinkerPiston.is_extended());
     }
 }

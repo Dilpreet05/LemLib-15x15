@@ -32,14 +32,14 @@
 
  */
 
-pros::MotorGroup leftMotors({10}, pros::MotorGearset::blue); // Motor ports {4,3,2} at 600RPM
+pros::MotorGroup leftMotors({10,-9,-8,-7}, pros::MotorGearset::blue); // Motor ports {4,3,2} at 600RPM
 
 /**
  ** Same logic from leftMotors applies to rightMotors, including arguments and motor gearsets.
  ** rightMotors represents the grouping of motors that are on the RIGHT side of the DRIVETRAIN
  ** Positive motor ports because the motors should be spinning clockwise for the robot to move forward.
  */
-pros::MotorGroup rightMotors({-1}, pros::MotorGearset::blue); // Motor ports {8,9,10} at 600RPM (Blue gearset)
+pros::MotorGroup rightMotors({-1,5,4,3}, pros::MotorGearset::blue); // Motor ports {8,9,10} at 600RPM (Blue gearset)
 
 /* End of Motor Group declaration and initialization */
 
@@ -112,7 +112,7 @@ lemlib::Drivetrain DRIVETRAIN(&leftMotors,  // left motor group
  *
  *
  */
-pros::Imu IMU(6);
+pros::Imu IMU(21);
 
 /**
  *
@@ -126,7 +126,7 @@ pros::Imu IMU(6);
  *
  *
  */
-pros::Rotation horizontalTrackingWheelSensor(0);
+pros::Rotation horizontalTrackingWheelSensor(12);
 pros::adi::Encoder verticalTrackingWheelSensor('H','G',false);
 
 /**
@@ -138,7 +138,7 @@ pros::adi::Encoder verticalTrackingWheelSensor('H','G',false);
  *
  *
  */
-lemlib::TrackingWheel horizontalTrackingWheel(&horizontalTrackingWheelSensor, 1.9335, 0);
+lemlib::TrackingWheel horizontalTrackingWheel(&horizontalTrackingWheelSensor, 1.9335, 4.25);
 lemlib::TrackingWheel verticalTrackingWheel(&verticalTrackingWheelSensor, 1.9335, 0,1024.0/360);
 
 /**

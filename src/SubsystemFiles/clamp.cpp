@@ -5,8 +5,7 @@
 
 void clampControl(){
     if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-        clampStatus=!clampStatus;
-        clampPiston.set_value(clampStatus);
+        clampPiston.set_value(!clampPiston.is_extended());
     }
 }
 
@@ -24,11 +23,9 @@ pros::Task autoclamp{[] {
         }
 
         if (autoclamp_active) {
-        if (getDistance() < 3) {
-            clampPiston.set_value(1);
-        } else {
-            clampPiston.set_value(0);
-        }
+            if (!clampPiston.is_extended() && autoClampSwitch.get_new_press()) {
+                clampPiston.set_value(1);
+            }
         }
     }
 }};
