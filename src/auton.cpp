@@ -19,7 +19,7 @@ void moveStakeTo(int position){ stakeMotors.move_absolute(position, 127); }
 void tuneAngularPID()
 {
     chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(90, 10000);
+    chassis.turnToHeading(180, 10000);
 }
 
 void tuneLinearPID()

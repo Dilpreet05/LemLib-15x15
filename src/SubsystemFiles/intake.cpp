@@ -11,9 +11,9 @@ void setIntakeBrakes(){
 
 void intakeControl(){
 
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
         intake.move(intakeSpeed);
-    }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+    }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
         intake.move(-intakeSpeed);
     }else{
         intake.brake();

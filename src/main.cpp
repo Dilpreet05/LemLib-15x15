@@ -11,17 +11,15 @@
 void initialize() {
 	console.focus();
    	console.println("Initializing robot...");
-	distanceSensor.calibrate();
-	LED_Strip.init();
-	// LED_Manager.initialize();
+	// distanceSensor.calibrate();
 	// pros::lcd::initialize();
-    // chassis.calibrate(); // calibrate sensors
-	// pros::delay(2000);
+    chassis.calibrate(); // calibrate sensors
 	console.println("Done.");
 
-    setStakeBrake();
+    setAllBrakes();
+	sortColor=-1;
 
-	LED_Strip.rainbow(5);
+	chassis.setPose(0,0,0);
 
 
     pros::Task screenTask([&]() {
@@ -36,7 +34,8 @@ void initialize() {
 
 			// console.printf("distanceSensor reading: %f\n", getDistance());
 			// console.printf("Autoclamp boolean: %s\n", (autoclamp_active) ? "true": "false");
-			// console.printf("clamp piston value: %d\n", clampStatus);
+			console.printf("clamp piston value: %d\n", clamp_is_extended);
+			// console.printf("limit_switch: %d\n",autoClampSwitch.get_value());
 
 			console.printf("Color value: %lf\n",colorSensor.get_hue());
 
@@ -86,9 +85,11 @@ void competition_initialize() {	selector.focus();}
 void autonomous() {
 
 	console.println("Running auton...");
-	selector.run_auton();
+	chassis.setPose(0,0,0);
 
-
+	// selector.run_auton();
+	// tuneAngularPID();
+	tuneLinearPID();
 }
 
 /**
@@ -115,7 +116,10 @@ void opcontrol() {
         stakeControl();
 		doinkerControl();
 		clampControl();
-		toggleAutoClamp();
+		// toggleAutoClamp();
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			autonomous();
+		}
 
         pros::delay(20);
 	}

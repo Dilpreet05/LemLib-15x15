@@ -23,13 +23,13 @@ void stakeControl(){
     //     stakeMotorLeft.brake();
 
     // }
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 
-        stakeMotors.move(127);
+        stakeMotors.move_absolute(-25,127);
 
-    }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+    }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 
-        stakeMotors.move(-127);
+        stakeMotors.move_absolute(-400,127);
 
     }else{
         
