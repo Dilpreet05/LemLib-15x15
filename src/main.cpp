@@ -15,11 +15,11 @@ void initialize() {
 	// pros::lcd::initialize();
     chassis.calibrate(); // calibrate sensors
 	console.println("Done.");
+	pros::delay(250);
 
+	selector.focus();
     setAllBrakes();
-	sortColor=-1;
 
-	chassis.setPose(0,0,0);
 
 
     pros::Task screenTask([&]() {
@@ -85,11 +85,16 @@ void competition_initialize() {	selector.focus();}
 void autonomous() {
 
 	console.println("Running auton...");
-	chassis.setPose(0,0,0);
+	stakeMotors.tare_position();
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+	// chassis.setPose(0,0,0);
 
 	// selector.run_auton();
+	console.focus();
 	// tuneAngularPID();
 	tuneLinearPID();
+	// intakeRing();
+	// blueNegSide();
 }
 
 /**
@@ -107,19 +112,20 @@ void autonomous() {
  */
 void opcontrol() {
 
-	console.focus();
+	// console.focus();
+	colorSorting.suspend();
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	while (true) {
 
 		chassis.arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+		// chassis.tank(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
 		intakeControl();
         stakeControl();
 		doinkerControl();
 		clampControl();
 		// toggleAutoClamp();
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
-			autonomous();
-		}
+
 
         pros::delay(20);
 	}

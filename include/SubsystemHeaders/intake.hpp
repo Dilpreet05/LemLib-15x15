@@ -10,3 +10,8 @@ inline pros::MotorGroup intake({17,18},pros::MotorGearset::green,pros::v5::Motor
 
 void setIntakeBrakes();
 void intakeControl();
+
+inline pros::Optical colorSensor(20);
+
+inline int sortColor = 0;
+extern pros::Task colorSorting;
