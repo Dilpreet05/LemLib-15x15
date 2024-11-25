@@ -1,4 +1,5 @@
 #include "api.h" // IWYU pragma: keep
+#include "pros/adi.hpp"
 #include "pros/motor_group.hpp"
 
 inline int intakeSpeed = 127;
@@ -12,6 +13,7 @@ void setIntakeBrakes();
 void intakeControl();
 
 inline pros::Optical colorSensor(20);
+inline pros::adi::DigitalOut intakePiston('D',1);
 
 inline int sortColor = 0;
 extern pros::Task colorSorting;

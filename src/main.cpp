@@ -87,12 +87,12 @@ void autonomous() {
 	console.println("Running auton...");
 	stakeMotors.tare_position();
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-	// chassis.setPose(0,0,0);
+    chassis.setPose(-54,-31,90);
 
-	// selector.run_auton();
+	selector.run_auton();
 	console.focus();
 	// tuneAngularPID();
-	tuneLinearPID();
+	// tuneLinearPID();
 	// intakeRing();
 	// blueNegSide();
 }
@@ -119,12 +119,16 @@ void opcontrol() {
 	while (true) {
 
 		chassis.arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+		// chassis.arcade((master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)-master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))*127,(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)-master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))*127);
 		// chassis.tank(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
 		intakeControl();
         stakeControl();
 		doinkerControl();
 		clampControl();
 		// toggleAutoClamp();
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			intakePiston.set_value(0);
+		}
 
 
         pros::delay(20);
