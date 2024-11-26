@@ -162,3 +162,10 @@ void redPosSide(){
 
 
 }
+
+
+void skills(){
+
+    chassis.setPose(-54,-31,270);
+
+}

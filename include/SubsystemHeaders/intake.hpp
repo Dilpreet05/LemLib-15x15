@@ -12,8 +12,11 @@ inline pros::MotorGroup intake({17,18},pros::MotorGearset::green,pros::v5::Motor
 void setIntakeBrakes();
 void intakeControl();
 
-inline pros::Optical colorSensor(20);
+inline pros::Optical intakeColorSensor(20);
+inline pros::Distance intakeDistanceSensor(0);
 inline pros::adi::DigitalOut intakePiston('D',1);
 
 inline int sortColor = 0;
+inline bool isLoaded = false;
+inline bool isStuck = false;
 extern pros::Task colorSorting;

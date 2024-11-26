@@ -42,7 +42,6 @@
 #include "SubsystemHeaders/clamp.hpp"
 #include "SubsystemHeaders/stake_mech.hpp"
 #include "SubsystemHeaders/doinker.hpp" 
-#include "SubsystemHeaders/distanceSensor.hpp" 
 #include "auton.hpp"
 #include "robodash/api.h" // IWYU pragma: keep
 

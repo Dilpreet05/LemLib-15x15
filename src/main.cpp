@@ -37,7 +37,7 @@ void initialize() {
 			console.printf("clamp piston value: %d\n", clamp_is_extended);
 			// console.printf("limit_switch: %d\n",autoClampSwitch.get_value());
 
-			console.printf("Color value: %lf\n",colorSensor.get_hue());
+			console.printf("Color value: %lf\n",intakeColorSensor.get_hue());
 
 
             // log position telemetry
