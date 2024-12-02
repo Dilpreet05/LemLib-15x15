@@ -42,7 +42,7 @@
 #include "SubsystemHeaders/clamp.hpp"
 #include "SubsystemHeaders/stake_mech.hpp"
 #include "SubsystemHeaders/doinker.hpp" 
-#include "auton.hpp"
+#include "auton.hpp" // IWYU pragma: keep
 #include "robodash/api.h" // IWYU pragma: keep
 
 

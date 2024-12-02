@@ -19,7 +19,9 @@ void initialize() {
 
 	selector.focus();
     setAllBrakes();
-
+	stakeMotors.tare_position();
+	// intake.tare_position();
+	sortColor=1;
 
 
     pros::Task screenTask([&]() {
@@ -32,12 +34,18 @@ void initialize() {
             // console.printf("Vertical Tracking Wheel (AMT): %d\n",verticalTrackingWheelSensor.get_value());
             // console.printf("Horizontal tracking Wheel: %d\n",horizontalTrackingWheelSensor.get_angle());
 
+			console.printf("Stake_Angle: %f\n", stakeRotation.get_angle()/100.0);
+			console.printf("Color: %lf\n", intakeColorSensor.get_hue());
+			console.printf("Distance: %d\n", intakeDistanceSensor.get_distance());
+			console.printf("isLoaded: %d\n", isLoaded);
+			console.printf("isStuck: %d\n", isStuck);
+			// console.printf("Intake encoder reading: %lf\n", hookIntakeMotor.get_position());
+
 			// console.printf("distanceSensor reading: %f\n", getDistance());
 			// console.printf("Autoclamp boolean: %s\n", (autoclamp_active) ? "true": "false");
-			console.printf("clamp piston value: %d\n", clamp_is_extended);
+			// console.printf("clamp piston value: %d\n", clamp_is_extended);
 			// console.printf("limit_switch: %d\n",autoClampSwitch.get_value());
 
-			console.printf("Color value: %lf\n",intakeColorSensor.get_hue());
 
 
             // log position telemetry
@@ -85,10 +93,11 @@ void competition_initialize() {	selector.focus();}
 void autonomous() {
 
 	console.println("Running auton...");
-	stakeMotors.tare_position();
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-    chassis.setPose(-54,-31,90);
+    // chassis.setPose(-54,-31,90);
+	chassis.setPose(0,0,0);
 
+	pivotIntake();
 	selector.run_auton();
 	console.focus();
 	// tuneAngularPID();
@@ -112,7 +121,7 @@ void autonomous() {
  */
 void opcontrol() {
 
-	// console.focus();
+	console.focus();
 	colorSorting.suspend();
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
@@ -126,9 +135,7 @@ void opcontrol() {
 		doinkerControl();
 		clampControl();
 		// toggleAutoClamp();
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
-			intakePiston.set_value(0);
-		}
+
 
 
         pros::delay(20);

@@ -3,36 +3,46 @@
 #include "pros/misc.h"
 #include "pros/motors.h" // IWYU pragma: keep
 
+lemlib::PID stake_pid(
+    1.75,
+    0.0,
+    7.5,
+    0,
+    true
+);
+double currPose;
+double power;
+double targetPose;
 
+float targetErrorRange = 3;
 
 void stakeControl(){
 
-    // if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 
-    //     stakeMotorRight.move(127);
-    //     stakeMotorLeft.move(-127);
+    currPose = stakeRotation.get_angle()/100.0;
 
-    // }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
 
-    //     stakeMotorRight.move(-127);
-    //     stakeMotorLeft.move(127);
-
-    // }else{
-        
-    //     stakeMotorRight.brake();
-    //     stakeMotorLeft.brake();
-
-    // }
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 
-        stakeMotors.move_absolute(-25,127);
+        targetPose = 175;
+        if(!(stakeRotation.get_angle() < targetPose + targetErrorRange && stakeRotation.get_angle() > targetPose - targetErrorRange)){
+            power = stake_pid.update(targetPose-currPose);
+            stakeMotors.move(power);
+        }
+
 
     }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 
-        stakeMotors.move_absolute(-400,127);
+        targetPose=33;
+        if(!(stakeRotation.get_angle() < targetPose + targetErrorRange && stakeRotation.get_angle() > targetPose - targetErrorRange)){
+            power = stake_pid.update(targetPose-currPose);
+            stakeMotors.move(power);
+        }
+
 
     }else{
         
+        power = 0;
         stakeMotors.brake();
 
     }

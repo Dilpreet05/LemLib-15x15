@@ -12,8 +12,9 @@ rd::Selector selector({
 
  {"Red", &redPosSide},
  {"Blue",	&blueNegSide},
+ {"Skills" &skills},
  {"Intake Only", &intakeRing},
     
     
     
-    });
+});

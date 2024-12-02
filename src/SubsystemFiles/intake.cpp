@@ -20,24 +20,26 @@ void intakeControl(){
         intake.brake();
     }
 
+    if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+        intakePivotStatus=!intakePivotStatus;
+        intakePivotPistons.set_value(intakePivotStatus);
+    }
+
 }
 
 pros::Task colorSorting{[]{
 
     intakeColorSensor.set_led_pwm(100);
-
-
-
     
     while(true){
 
 
         /* when the specified color */
-        if(sortColor==1){
+        if(sortColor==1 && !isLoaded){
 
-            isLoaded = (intakeColorSensor.get_hue()>5 && intakeColorSensor.get_hue()<30) ? true:false; /* if the ring is red, prepare to get rid of it */
+            isLoaded = (intakeColorSensor.get_hue()>5 && intakeColorSensor.get_hue()<25) ? true:false; /* if the ring is red, prepare to get rid of it */
 
-        }else if(sortColor==-1){
+        }else if(sortColor==-1 && !isLoaded){
 
             isLoaded = (intakeColorSensor.get_hue()>185 && intakeColorSensor.get_hue()<215) ? true:false; /*  if the ring is blue, prepare to get rid of it */
 
@@ -51,16 +53,18 @@ pros::Task colorSorting{[]{
 
 
 
-        if((isLoaded && intakeDistanceSensor.get_distance() < 4) || isStuck){
+        if(((isLoaded && intakeDistanceSensor.get_distance() < 40 && hookIntakeMotor.get_actual_velocity() > 50)  || isStuck)){
 
             /* reverse intake for specified time. if intake is stuck then reverse for longer */
+            pros::delay(200);
+
             intake.move(-intakeSpeed);
-            pros::delay(125 * (isStuck*3));
+            pros::delay(250 + 250*(isStuck));
             intake.move(intakeSpeed);
 
             /* reset */
-            isStuck = false;
-            isLoaded=false;
+            isStuck  = false;
+            isLoaded = false;
         }
 
         pros::delay(20);

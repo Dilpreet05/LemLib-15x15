@@ -6,13 +6,22 @@
 void intakeRing() { intake.move(intakeSpeed);  }
 void outtakeRing(){ intake.move(-intakeSpeed); }
 void stopIntake() { intake.brake();                     }
-void intakeDrop() {  intakePiston.set_value(0);         }
+void pivotIntake(){ 
+    intakePivotStatus=!intakePivotStatus;
+    intakePivotPistons.set_value(intakePivotStatus);
+}
 
 void doinkerDown(){ doinkerPiston.set_value(1);}
 void doinkerUp(){   doinkerPiston.set_value(0);}
 
-void clampDown() { clampPiston.set_value(1); }
-void clampUp()   { clampPiston.set_value(0); }
+void clampDown() { 
+    clamp_is_extended=true;
+    clampPiston.set_value(1); 
+}
+void clampUp()   { 
+    clamp_is_extended=false;
+    clampPiston.set_value(0); 
+}
 
 
 void moveStakeTo(int position){ stakeMotors.move_absolute(position, 127); }
@@ -65,7 +74,7 @@ void blueNegSide(){
     // chassis.moveToPoint(-12, -50, 1250,{.forwards=false,.maxSpeed=40},false);
     pros::delay(500);
     clampDown();
-    intakeDrop();
+    pivotIntake();
     pros::delay(500);
 
     chassis.turnToPoint(12, 32, 1250,{.forwards=false,.maxSpeed=80});
@@ -111,7 +120,7 @@ void redPosSide(){
     chassis.moveToPoint(-24, -24, 1750,{.forwards=false},false);
     doinkerUp();
     pros::delay(150);
-    intakeDrop();
+    pivotIntake();
     pros::delay(500);
 
     chassis.turnToHeading(270,1250);
@@ -166,6 +175,7 @@ void redPosSide(){
 
 void skills(){
 
-    chassis.setPose(-54,-31,270);
+    // chassis.setPose(-54,-31,270);
+    chassis.setPose(-60,0,90);
 
 }

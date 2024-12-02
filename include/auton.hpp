@@ -1,11 +1,12 @@
-#include "main.h"
-#include "pros/misc.hpp"
+#include "api.h" // IWYU pragma: keep
+#include "pros/misc.hpp" // IWYU pragma: keep
 
 /** Helper Functions */
 
 void intakeRing();
 void outtakeRing();
 void stopIntake();
+void pivotIntake();
 
 void doinkerDown();
 void doinkerUp();
