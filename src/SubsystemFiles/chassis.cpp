@@ -39,7 +39,7 @@ pros::MotorGroup leftMotors({-4,-16,-17,18}, pros::MotorGearset::blue); // Motor
  ** rightMotors represents the grouping of motors that are on the RIGHT side of the DRIVETRAIN
  ** Positive motor ports because the motors should be spinning clockwise for the robot to move forward.
  */
-pros::MotorGroup rightMotors({11,12,-20, 15}, pros::MotorGearset::blue); // Motor ports {8,9,10} at 600RPM (Blue gearset)
+pros::MotorGroup rightMotors({11,12,-20, 14}, pros::MotorGearset::blue); // Motor ports {8,9,10} at 600RPM (Blue gearset)
 
 /* End of Motor Group declaration and initialization */
 
@@ -80,7 +80,7 @@ lemlib::Drivetrain DRIVETRAIN(&leftMotors,  // left motor group
                               11.5,         // Track width: 11.5 INCHES
                               2.75,         // Wheel diameter of our 3D Printed custom Omni Wheels & VEX Traction wheels
                               450,          // drivetrain rpm: 450 RPM
-                              2             // horizontal drift: 2
+                              8             // horizontal drift: 2
 );
 
 /*  End of Drive Train Code */
@@ -192,15 +192,15 @@ lemlib::OdomSensors sensors(&verticalTrackingWheel,   // vertical tracking wheel
 //                                              300, // large error range timeout, in milliseconds
 //                                              90   // maximum acceleration (slew)
 // );
-lemlib::ControllerSettings lateralController(0,  // proportional gain (kP)
+lemlib::ControllerSettings lateralController(6,  // proportional gain (kP)
                                              0,   // integral gain (kI)
-                                             0,   // derivative gain (kD)
+                                             17.5,   // derivative gain (kD)
                                              0,   // anti windup
-                                             0,   // small error range, in inches
-                                             0, // small error range timeout, in milliseconds
-                                             0,   // large error range, in inches
-                                             0, // large error range timeout, in milliseconds
-                                             0   // maximum acceleration (slew)
+                                             1,   // small error range, in inches
+                                             100, // small error range timeout, in milliseconds
+                                             5,   // large error range, in inches
+                                             300, // large error range timeout, in milliseconds
+                                             127   // maximum acceleration (slew)
 );
 
 /**
@@ -213,25 +213,25 @@ lemlib::ControllerSettings lateralController(0,  // proportional gain (kP)
  *
  */
 // angular PID controller
-// lemlib::ControllerSettings angularController(2.2,   // proportional gain (kP)
+// lemlib::ControllerSettings angularController(0,   // proportional gain (kP)
 //                                              0,   // integral gain (kI)
-//                                              10,  // derivative gain (kD)
-//                                              3,   // anti windup
-//                                              1, // small error range, in deg
-//                                              100, // small error range timeout, in milliseconds
-//                                              3, // large error range, in deg
-//                                              300, // large error range timeout, in milliseconds
-//                                              127   // maximum acceleration (slew)
+//                                              0,  // derivative gain (kD)
+//                                              0,   // anti windup
+//                                              0, // small error range, in deg
+//                                              0, // small error range timeout, in milliseconds
+//                                              0, // large error range, in deg
+//                                              0, // large error range timeout, in milliseconds
+//                                              0   // maximum acceleration (slew)
 // );
-lemlib::ControllerSettings angularController(2,   // proportional gain (kP)
+lemlib::ControllerSettings angularController(2.3,   // proportional gain (kP)
                                              0,   // integral gain (kI)
-                                             0,  // derivative gain (kD)
+                                             11.25,  // derivative gain (kD)
                                              0,   // anti windup
-                                             0, // small error range, in deg
-                                             0, // small error range timeout, in milliseconds
-                                             0, // large error range, in deg
-                                             0, // large error range timeout, in milliseconds
-                                             0   // maximum acceleration (slew)
+                                             1, // small error range, in deg
+                                             100, // small error range timeout, in milliseconds
+                                             3, // large error range, in deg
+                                             300, // large error range timeout, in milliseconds
+                                             127   // maximum acceleration (slew)
 );
 /* End of PID Code */
 

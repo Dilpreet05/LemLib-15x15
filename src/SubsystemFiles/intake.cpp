@@ -47,7 +47,7 @@ pros::Task colorSorting{[]{
 
 
         /* if the motors current draw is massive, it's probably stuck */
-        if(hookIntakeMotor.get_current_draw()>2100){
+        if(hookIntakeMotor.get_current_draw()>2300){
             isStuck = true;
         }
 

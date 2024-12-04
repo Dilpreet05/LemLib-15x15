@@ -14,14 +14,15 @@ void initialize() {
 	// distanceSensor.calibrate();
 	// pros::lcd::initialize();
     chassis.calibrate(); // calibrate sensors
+	// pros::delay(2000);
 	console.println("Done.");
-	pros::delay(250);
 
 	selector.focus();
     setAllBrakes();
 	stakeMotors.tare_position();
+	stakeRotation.reset_position();
 	// intake.tare_position();
-	sortColor=1;
+	// pivotIntake();
 
 
     pros::Task screenTask([&]() {
@@ -39,7 +40,6 @@ void initialize() {
 			console.printf("Distance: %d\n", intakeDistanceSensor.get_distance());
 			console.printf("isLoaded: %d\n", isLoaded);
 			console.printf("isStuck: %d\n", isStuck);
-			// console.printf("Intake encoder reading: %lf\n", hookIntakeMotor.get_position());
 
 			// console.printf("distanceSensor reading: %f\n", getDistance());
 			// console.printf("Autoclamp boolean: %s\n", (autoclamp_active) ? "true": "false");
@@ -93,17 +93,19 @@ void competition_initialize() {	selector.focus();}
 void autonomous() {
 
 	console.println("Running auton...");
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-    // chassis.setPose(-54,-31,90);
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	chassis.setPose(0,0,0);
+	stakeMotors.tare_position();
+	colorSorting.resume();
+	stakeStateMachine.suspend();
 
-	pivotIntake();
-	selector.run_auton();
+	// selector.run_auton();
+	redPosSide();
 	console.focus();
+	// stakeMotors.move_absolute(250, 70);
 	// tuneAngularPID();
 	// tuneLinearPID();
-	// intakeRing();
-	// blueNegSide();
+
 }
 
 /**
@@ -121,8 +123,9 @@ void autonomous() {
  */
 void opcontrol() {
 
-	console.focus();
+	// console.focus();
 	colorSorting.suspend();
+	stakeStateMachine.resume();
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	while (true) {

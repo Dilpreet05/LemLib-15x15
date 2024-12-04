@@ -14,7 +14,7 @@ void doinkerUp();
 void clampDown();
 void clampUp();
 
-void moveStakeTo(int); // only to be used in tasks
+void waitUntilRingInIntake(int timeout);
 
 /** Helper Functions End */
 
