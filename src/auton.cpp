@@ -209,7 +209,7 @@ void redPosSide(){
     stopIntake(); // prevent intake overuse
 
 
-}
+} // End red auton
 
 
 void skills(){
@@ -233,14 +233,9 @@ void skills(){
     chassis.turnToPoint(-48, 0, 1250,{.maxSpeed=70});
     chassis.moveToPoint(-48, 2, 1750,{.maxSpeed=70});
     intakeRing();
-    // while(intakeDistanceSensor.get()>50){pros::delay(5);} // wait until the ring reaches the top of the intake
     waitUntilRingInIntake(2500);
     stopIntake();
 
-    // doinkerDown();
-    // pros::delay(500);
-    // doinkerUp();
-    // pros::delay(500);
 
 
     /** Drive to MOGO and grab */
@@ -255,42 +250,49 @@ void skills(){
     pros::delay(250);
 
 
-    // /** Score 5 rings */
-
+    /** Score 5 rings */
+    // ring 1
     chassis.turnToPoint(0, -41, 1000);
     chassis.moveToPoint(0, -41, 1750,{.maxSpeed=70});
     intakeRing();
     pros::delay(1750);
 
-    
+    // reverse to avoid hitting other rings
     chassis.moveToPoint(-15, -42, 1750,{.forwards=false,.maxSpeed=70});
 
+    // ring 2
     chassis.turnToPoint(0, -58, 750);
     chassis.moveToPoint(0, -58, 1750,{.maxSpeed=70});
     pros::delay(1750);
 
+    // reverse to better align for next step
     chassis.moveToPoint(-15, -42, 1750,{.forwards=false,.maxSpeed=70});
 
-
+    // ring 3
     chassis.turnToPoint(-24, -20, 750);
     chassis.moveToPoint(-24, -20, 1750,{.maxSpeed=70});
     waitUntilRingInIntake(1750);
     stopIntake();
 
+    // ring 4
     chassis.turnToPoint(-48, -44, 1250);
     chassis.moveToPoint(-48, -44, 2500,{.maxSpeed=70});
     intakeRing();
     pros::delay(1750);
 
+    // ring 5
     chassis.moveToPoint(-62, -57, 1750,{.maxSpeed=70});
     pros::delay(1750);
 
+
+    /** Reverse to align the back of the robot with the corner and push MOGO into corner */
     chassis.moveToPoint(-48, -44, 1750,{.forwards=false,.maxSpeed=70});
 
     chassis.turnToPoint(-62, -57, 1250,{.forwards=false,.maxSpeed=70});
     chassis.moveToPoint(-62, -57, 1750,{.forwards=false,.maxSpeed=70},false);
+    clampUp(); // release mogo
 
-    clampUp();
+    /** Slam it into the corner a few times for good measure */
     chassis.moveToPoint(-48, -44, 1750,{.maxSpeed=70});     
     chassis.moveToPoint(-62, -57, 1750,{.forwards=false,.maxSpeed=70},false);
     chassis.moveToPoint(-48, -44, 1750,{.maxSpeed=70});     
