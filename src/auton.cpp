@@ -105,8 +105,8 @@ void blueNegSide(){
     pros::delay(1750);
 
     chassis.moveToPoint(32, 55, 1750,{.forwards=false,.maxSpeed=70});
-    chassis.turnToPoint(0, 55, 1750);
-    chassis.moveToPoint(9, 55, 2500,{.maxSpeed=70});
+    chassis.turnToPoint(0, 57, 1750);
+    chassis.moveToPoint(10, 57, 2500,{.maxSpeed=70});
     pros::delay(1750);
 
 
@@ -175,17 +175,17 @@ void redPosSide(){
     intakeRing(); // our color sorting is consistent to the point where it doesnt matter which ring we intake
                   // As long as we intake our color ring in the end, everything else is irrelevent.
                   // This step typically only intakes the blue ring which is flinged away in the end.
-    pros::delay(1750); // wait for ring to intake
+    // pros::delay(1750); // wait for ring to intake
 
     /** intake the red ring that was knocked away using a curving motion. */
-    chassis.moveToPose(-28, -60, 180,2500,{.lead=.6,.maxSpeed=50});
+    chassis.moveToPose(-28, -60, 180,2500,{.lead=.6,.maxSpeed=50},false);
         // the curving motion above allows for more accuracy in movements and slower, smoother movements.
-    pros::delay(1750); // wait for ring to intake
+    pros::delay(1250); // wait for ring to intake
 
     /** Back up from previous position & Intake the ring stack at position (0,-60) */
     chassis.moveToPoint(-32, -55, 1750,{.forwards=false,.maxSpeed=70}); // back up to avoid htiting wall
-    chassis.turnToPoint(0, -55, 1750);
-    chassis.moveToPoint(-9, -55, 2500,{.maxSpeed=70}); // occationally misses the ring
+    chassis.turnToPoint(0, -57, 1750);
+    chassis.moveToPoint(-10, -57, 2500,{.maxSpeed=70}); // occationally misses the ring
     pros::delay(1750); // wait for ring to intake
 
     /** Reverse using a curving motion as to avoid hitting the walls */
@@ -202,11 +202,32 @@ void redPosSide(){
     chassis.moveToPose(-60, -35, 270, 2500,{.lead=.2,.maxSpeed=70});
     pros::delay(1250);
 
-    /** Drive backk to (-48,-48) */
-    chassis.moveToPoint(-48, -48, 1750,{.forwards=false,.maxSpeed=70});
+
+    /** NEW POST SCRIM */
+
+    // chassis.moveToPose(-52, -33,200, 1750,{.forwards=false,.maxSpeed=70});
+    chassis.moveToPose(-30, -30, 225, 2500,{.forwards=false,.minSpeed=60});
+    chassis.moveToPoint(-60, -58, 1750,{.maxSpeed=70},false);
+    pros::delay(150);
+    doinkerDown();
+    pros::delay(150);
+
+    // // float theta = chassis.getPose().theta;
+
+    // chassis.turnToHeading(45, 1250);
+    chassis.turnToPoint(-30, -30, 1750,{.maxSpeed=40});
+    chassis.waitUntilDone();
+
+    doinkerUp();
+    pros::delay(150);
+
+    chassis.moveToPoint(-62, -62, 1750,{.forwards=false,.maxSpeed=70});
+
+    // chassis.moveToPoint(-64, -65,1750);
+    // pros::delay(3000);
 
 
-    stopIntake(); // prevent intake overuse
+    // stopIntake(); // prevent intake overuse
 
 
 } // End red auton

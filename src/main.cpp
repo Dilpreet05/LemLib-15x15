@@ -99,8 +99,8 @@ void autonomous() {
 	colorSorting.resume();
 	stakeStateMachine.suspend();
 
-	// selector.run_auton();
-	redPosSide();
+	selector.run_auton();
+	// redPosSide();
 	console.focus();
 	// stakeMotors.move_absolute(250, 70);
 	// tuneAngularPID();

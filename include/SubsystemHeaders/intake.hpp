@@ -13,7 +13,7 @@ void setIntakeBrakes();
 void intakeControl();
 
 inline pros::Optical intakeColorSensor(21);
-inline pros::Distance intakeDistanceSensor(8);
+inline pros::Distance intakeDistanceSensor(6);
 inline pros::adi::DigitalOut intakePivotPistons('E',LOW);
 inline int intakePivotStatus = 0;
 

@@ -5,13 +5,11 @@
 
 
 
-float targetErrorRange = 7;
+float targetErrorRange = 3;
 
 void stakeControl(){
 
-
     currPose = stakeRotation.get_angle()/100.0;
-
 
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 
@@ -20,7 +18,7 @@ void stakeControl(){
 
     }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 
-        targetPose=35;
+        targetPose=38;
 
 
     }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
@@ -30,8 +28,7 @@ void stakeControl(){
 
     }else{
         
-        stakeMotors.brake();
-
+      stakeMotors.brake();    
 
     }
 

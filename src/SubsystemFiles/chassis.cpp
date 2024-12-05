@@ -112,7 +112,7 @@ lemlib::Drivetrain DRIVETRAIN(&leftMotors,  // left motor group
  *
  *
  */
-pros::Imu IMU(10);
+pros::Imu IMU(8);
 
 /**
  *
