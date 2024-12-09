@@ -17,10 +17,4 @@ void stakeControl();
 void setStakeBrake();
 
 extern pros::Task stakeStateMachine;
-inline lemlib::PID stake_pid(
-    1.75,
-    0.01,
-    0,
-    3,
-    true
-);
+extern lemlib::PID stake_pid;

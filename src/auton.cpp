@@ -98,11 +98,11 @@ void blueNegSide(){
     chassis.turnToPoint(30, 48, 1750);
     chassis.moveToPoint(30, 48, 2500,{.maxSpeed=70});
     intakeRing();
-    pros::delay(1750);
+    // pros::delay(1750);
 
 
-    chassis.moveToPose(28, 60, 180,2500,{.lead=.6,.maxSpeed=50});
-    pros::delay(1750);
+    chassis.moveToPose(28, 60, 0,2500,{.lead=.6,.maxSpeed=50},false);
+    pros::delay(1250);
 
     chassis.moveToPoint(32, 55, 1750,{.forwards=false,.maxSpeed=70});
     chassis.turnToPoint(0, 57, 1750);
@@ -117,7 +117,7 @@ void blueNegSide(){
 
     chassis.moveToPoint(30,30,1750,{.forwards=false,.maxSpeed=70});
 
-    chassis.moveToPose(60, 35, 270, 2500,{.lead=.2,.maxSpeed=70});
+    chassis.moveToPose(60, 35, 90, 2500,{.lead=.2,.maxSpeed=70},false);
     pros::delay(1250);
 
     chassis.moveToPoint(48, 48, 1750,{.forwards=false,.maxSpeed=70});
@@ -128,6 +128,9 @@ void blueNegSide(){
 }
 
 void redPosSide(){
+
+
+
     /** Most motions are limited in speed for consistancy reasons. 
      *  Our preload ring is not located in our robot and is instead placed behind our robot at position (-60,-35) approx.
      */
@@ -135,99 +138,154 @@ void redPosSide(){
     // sort out blue rings
     sortColor=-1;
 
-    /** Set global positioning for Odometry */
-    chassis.setPose(-54,-31,90);
+    // sortColor=1;
+    chassis.setPose(54,31,270);
 
-    /** Rush towards one of the centerline mobile goals and take possession of it using our doinker/MOGO stick */
-    chassis.moveToPoint(-17, -36, 3500,{.maxSpeed=100,.minSpeed=60,.earlyExitRange=4},false);
+
+    chassis.moveToPoint(17, 36, 3500,{.maxSpeed=100,.minSpeed=60,.earlyExitRange=4},false);
     doinkerDown();
     pros::delay(150); // lets goal settle
 
-    /** Drive backwards with the goal in our possession */
-    chassis.moveToPoint(-24, -24, 1750,{.forwards=false,.maxSpeed=70},false);
-    pros::delay(150); // wait a little bit before putting the stick down in order to avoid premature retration
-    doinkerUp(); // retract doinker
-    outtakeRing(); // reverse our intake so that our first stage of flex wheels drops down
-    pros::delay(400); // wait for any energy transfered to the robot from the intake drop and doinker to dissipate
+    chassis.moveToPoint(24, 24, 1750,{.forwards=false,.maxSpeed=70},false);
+    pros::delay(150);
+    doinkerUp();
+    outtakeRing();
+    pros::delay(400);
+    stakeMotors.move_absolute(360, 70);
+    stopIntake();
+    pivotIntake();
+    pros::delay(500);
 
-    /** Put up our wall stake mech so we can stack more rings onto our mobile goal */
-    stakeMotors.move_absolute(360, 70); // moves our wall stake mech ~60deg
-    stopIntake(); // stop the intake reversing since the flex wheels most likely already dropped
-    pivotIntake(); // pivot our intake upwards to the scoring position
-    pros::delay(500); // wait for any transfered energy to dissipate 
 
-    /** Drive to a position that lines us up the the flat edge of the MOGO in the X-direction*/
-    chassis.turnToPoint(-18, -24, 1750);
-    chassis.moveToPoint(-18,-24,1750,{.maxSpeed=70});
+    chassis.turnToPoint(18, 24, 1750);
+    chassis.moveToPoint(18,24,1750,{.maxSpeed=70});
 
-    /** Drive into the MOGO and clamp by changing our Y-component of our movement input, this motion knocks over a ring stack */
-    chassis.turnToPoint(-18, -40, 1250,{.forwards=false});
-    chassis.moveToPoint(-18, -40, 2500,{.forwards=false,.minSpeed=70},false);
-    clampDown(); // clamp goal
-    pros::delay(250); // wait for goal to settle
+    chassis.turnToPoint(18, 40, 1250,{.forwards=false});
+    chassis.moveToPoint(18, 40, 2500,{.forwards=false,.minSpeed=70},false);
+    clampDown();
+    pros::delay(250);
 
-    /** Move away from any rings to avoid any collateral damage to ring stacks when turning to intake*/
-    chassis.moveToPoint(-16, -30, 1750); 
+    chassis.moveToPoint(16, 30, 1750);
 
-    /** Turn to and Intake rings at (-24,-48) that was moved to (-30,-38) since it was hit by our robot */
-    chassis.turnToPoint(-30, -48, 1750);
-    chassis.moveToPoint(-30, -48, 2500,{.maxSpeed=70});
-    intakeRing(); // our color sorting is consistent to the point where it doesnt matter which ring we intake
-                  // As long as we intake our color ring in the end, everything else is irrelevent.
-                  // This step typically only intakes the blue ring which is flinged away in the end.
-    // pros::delay(1750); // wait for ring to intake
+    chassis.turnToPoint(30, 48, 1750);
+    chassis.moveToPoint(30, 48, 2500,{.maxSpeed=70});
+    intakeRing();
+    // pros::delay(1750);
 
-    /** intake the red ring that was knocked away using a curving motion. */
-    chassis.moveToPose(-28, -60, 180,2500,{.lead=.6,.maxSpeed=50},false);
-        // the curving motion above allows for more accuracy in movements and slower, smoother movements.
-    pros::delay(1250); // wait for ring to intake
 
-    /** Back up from previous position & Intake the ring stack at position (0,-60) */
-    chassis.moveToPoint(-32, -55, 1750,{.forwards=false,.maxSpeed=70}); // back up to avoid htiting wall
-    chassis.turnToPoint(0, -57, 1750);
-    chassis.moveToPoint(-10, -57, 2500,{.maxSpeed=70}); // occationally misses the ring
-    pros::delay(1750); // wait for ring to intake
-
-    /** Reverse using a curving motion as to avoid hitting the walls */
-    chassis.moveToPose(-24, -24, 180, 2500,{.forwards=false,.lead=.3,.minSpeed=70});
-
-    /** Intake the ring at position (-48,-48) */
-    chassis.moveToPoint(-48, -48, 2500,{.maxSpeed=70});
-    pros::delay(1750); // wait for ring to intake
-
-    /** Reverse slighty for better angle of attack on next step */
-    chassis.moveToPoint(-30,-30,1750,{.forwards=false,.maxSpeed=70});
-
-    /** Use a curving motion to intake our preload ring located at (-60,-35) */
-    chassis.moveToPose(-60, -35, 270, 2500,{.lead=.2,.maxSpeed=70});
+    chassis.moveToPose(28, 60, 0,2500,{.lead=.6,.maxSpeed=50},false);
     pros::delay(1250);
 
-
-    /** NEW POST SCRIM */
-
-    // chassis.moveToPose(-52, -33,200, 1750,{.forwards=false,.maxSpeed=70});
-    chassis.moveToPose(-30, -30, 225, 2500,{.forwards=false,.minSpeed=60});
-    chassis.moveToPoint(-60, -58, 1750,{.maxSpeed=70},false);
-    pros::delay(150);
-    doinkerDown();
-    pros::delay(150);
-
-    // // float theta = chassis.getPose().theta;
-
-    // chassis.turnToHeading(45, 1250);
-    chassis.turnToPoint(-30, -30, 1750,{.maxSpeed=40});
-    chassis.waitUntilDone();
-
-    doinkerUp();
-    pros::delay(150);
-
-    chassis.moveToPoint(-62, -62, 1750,{.forwards=false,.maxSpeed=70});
-
-    // chassis.moveToPoint(-64, -65,1750);
-    // pros::delay(3000);
+    chassis.moveToPoint(32, 55, 1750,{.forwards=false,.maxSpeed=70});
+    chassis.turnToPoint(0, 57, 1750);
+    chassis.moveToPoint(10, 57, 2500,{.maxSpeed=70});
+    pros::delay(1750);
 
 
-    // stopIntake(); // prevent intake overuse
+    chassis.moveToPose(24, 24, 180, 2500,{.forwards=false,.lead=.3,.minSpeed=70});
+
+    chassis.moveToPoint(48, 48, 2500,{.maxSpeed=70});
+    pros::delay(1750);
+
+    chassis.moveToPoint(30,30,1750,{.forwards=false,.maxSpeed=70});
+
+    chassis.moveToPose(60, 35, 90, 2500,{.lead=.2,.maxSpeed=70},false);
+    pros::delay(1250);
+
+    chassis.moveToPoint(48, 48, 1750,{.forwards=false,.maxSpeed=70});
+
+
+    stopIntake();
+
+    // /** Set global positioning for Odometry */
+    // chassis.setPose(-54,-31,90);
+
+    // /** Rush towards one of the centerline mobile goals and take possession of it using our doinker/MOGO stick */
+    // chassis.moveToPoint(-17, -36, 3500,{.maxSpeed=100,.minSpeed=60,.earlyExitRange=4},false);
+    // doinkerDown();
+    // pros::delay(150); // lets goal settle
+
+    // /** Drive backwards with the goal in our possession */
+    // chassis.moveToPoint(-24, -24, 1750,{.forwards=false,.maxSpeed=70},false);
+    // pros::delay(150); // wait a little bit before putting the stick down in order to avoid premature retration
+    // doinkerUp(); // retract doinker
+    // outtakeRing(); // reverse our intake so that our first stage of flex wheels drops down
+    // pros::delay(400); // wait for any energy transfered to the robot from the intake drop and doinker to dissipate
+
+    // /** Put up our wall stake mech so we can stack more rings onto our mobile goal */
+    // stakeMotors.move_absolute(360, 70); // moves our wall stake mech ~60deg
+    // stopIntake(); // stop the intake reversing since the flex wheels most likely already dropped
+    // pivotIntake(); // pivot our intake upwards to the scoring position
+    // pros::delay(500); // wait for any transfered energy to dissipate 
+
+    // /** Drive to a position that lines us up the the flat edge of the MOGO in the X-direction*/
+    // chassis.turnToPoint(-18, -24, 1750);
+    // chassis.moveToPoint(-18,-24,1750,{.maxSpeed=70});
+
+    // /** Drive into the MOGO and clamp by changing our Y-component of our movement input, this motion knocks over a ring stack */
+    // chassis.turnToPoint(-18, -40, 1250,{.forwards=false});
+    // chassis.moveToPoint(-18, -40, 2500,{.forwards=false,.minSpeed=70},false);
+    // clampDown(); // clamp goal
+    // pros::delay(250); // wait for goal to settle
+
+    // /** Move away from any rings to avoid any collateral damage to ring stacks when turning to intake*/
+    // chassis.moveToPoint(-16, -30, 1750); 
+
+    // /** Turn to and Intake rings at (-24,-48) that was moved to (-30,-38) since it was hit by our robot */
+    // chassis.turnToPoint(-30, -48, 1750);
+    // chassis.moveToPoint(-30, -48, 2500,{.maxSpeed=70});
+    // intakeRing(); // our color sorting is consistent to the point where it doesnt matter which ring we intake
+    //               // As long as we intake our color ring in the end, everything else is irrelevent.
+    //               // This step typically only intakes the blue ring which is flinged away in the end.
+    // // pros::delay(1750); // wait for ring to intake
+
+    // /** intake the red ring that was knocked away using a curving motion. */
+    // chassis.moveToPose(-28, -60, 180,2500,{.lead=.6,.maxSpeed=50},false);
+    //     // the curving motion above allows for more accuracy in movements and slower, smoother movements.
+    // pros::delay(1250); // wait for ring to intake
+
+    // /** Back up from previous position & Intake the ring stack at position (0,-60) */
+    // chassis.moveToPoint(-32, -55, 1750,{.forwards=false,.maxSpeed=70}); // back up to avoid htiting wall
+    // chassis.turnToPoint(0, -57, 1750);
+    // chassis.moveToPoint(-10, -57, 2500,{.maxSpeed=70}); // occationally misses the ring
+    // pros::delay(1750); // wait for ring to intake
+
+    // /** Reverse using a curving motion as to avoid hitting the walls */
+    // chassis.moveToPose(-24, -24, 180, 2500,{.forwards=false,.lead=.3,.minSpeed=70});
+
+    // /** Intake the ring at position (-48,-48) */
+    // chassis.moveToPoint(-48, -48, 2500,{.maxSpeed=70});
+    // pros::delay(1750); // wait for ring to intake
+
+    // /** Reverse slighty for better angle of attack on next step */
+    // chassis.moveToPoint(-30,-30,1750,{.forwards=false,.maxSpeed=70});
+
+    // /** Use a curving motion to intake our preload ring located at (-60,-35) */
+    // chassis.moveToPose(-60, -35, 270, 2500,{.lead=.2,.maxSpeed=70});
+    // pros::delay(1250);
+
+
+    // /** NEW POST SCRIM */
+
+    // // chassis.moveToPose(-52, -33,200, 1750,{.forwards=false,.maxSpeed=70});
+    // chassis.moveToPose(-30, -30, 225, 2500,{.forwards=false,.minSpeed=60});
+    // chassis.moveToPoint(-60, -58, 1750,{.maxSpeed=70},false);
+    // pros::delay(150);
+    // doinkerDown();
+    // pros::delay(150);
+
+    // // // float theta = chassis.getPose().theta;
+
+    // // chassis.turnToHeading(45, 1250);
+    // chassis.turnToPoint(-30, -30, 1750,{.maxSpeed=40});
+    // chassis.waitUntilDone();
+
+    // doinkerUp();
+    // pros::delay(150);
+
+    // chassis.moveToPoint(-62, -62, 1750,{.forwards=false,.maxSpeed=70});
+
+
 
 
 } // End red auton

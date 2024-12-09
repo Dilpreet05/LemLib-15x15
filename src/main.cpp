@@ -23,6 +23,7 @@ void initialize() {
 	stakeRotation.reset_position();
 	// intake.tare_position();
 	// pivotIntake();
+	stakeStateMachine.suspend();
 
 
     pros::Task screenTask([&]() {
@@ -41,6 +42,7 @@ void initialize() {
 			console.printf("isLoaded: %d\n", isLoaded);
 			console.printf("isStuck: %d\n", isStuck);
 
+			master.print(0, 0, "%f", stakeRotation.get_angle()/100.0);
 			// console.printf("distanceSensor reading: %f\n", getDistance());
 			// console.printf("Autoclamp boolean: %s\n", (autoclamp_active) ? "true": "false");
 			// console.printf("clamp piston value: %d\n", clamp_is_extended);
@@ -125,7 +127,7 @@ void opcontrol() {
 
 	// console.focus();
 	colorSorting.suspend();
-	stakeStateMachine.resume();
+	// stakeStateMachine.resume();
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	while (true) {
