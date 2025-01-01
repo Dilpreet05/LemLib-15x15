@@ -21,9 +21,8 @@ void waitUntilRingInIntake(int timeout);
 /** Autonomous Routines */
 
 void skills();
-
-void redRightSide();
-void redLeftSide();
+void blueNegSide();
+void redPosSide();
 
 /** Autonomous Routines End */
 
@@ -35,8 +34,3 @@ void tuneLinearPID();
 void tuneLinearWindUp();
 
 /** PID Tuning Functions End */
-
-/** Functions Tasks for Autonomous */
-
-void blueNegSide();
-void redPosSide();

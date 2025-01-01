@@ -3,6 +3,7 @@
 #include "pros/adi.hpp"
 #include "pros/rotation.hpp"
 
+/** Everything needed for our lemlib template is located here */
 
 extern lemlib::Chassis chassis;
 extern lemlib::ControllerSettings angularController;
@@ -15,5 +16,6 @@ extern pros::adi::Encoder verticalTrackingWheelSensor;
 extern pros::Imu IMU;
 extern lemlib::Drivetrain DRIVETRAIN;
 
+/** These are our left and right drive train ports */
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;

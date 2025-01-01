@@ -10,19 +10,17 @@
  */
 void initialize() {
 	console.focus();
+
    	console.println("Initializing robot...");
-	// distanceSensor.calibrate();
-	// pros::lcd::initialize();
     chassis.calibrate(); // calibrate sensors
-	// pros::delay(2000);
+
 	console.println("Done.");
 
 	selector.focus();
     setAllBrakes();
 	stakeMotors.tare_position();
 	stakeRotation.reset_position();
-	// intake.tare_position();
-	// pivotIntake();
+
 	stakeStateMachine.suspend();
 
 
@@ -99,14 +97,9 @@ void autonomous() {
 	chassis.setPose(0,0,0);
 	stakeMotors.tare_position();
 	colorSorting.resume();
-	stakeStateMachine.suspend();
 
-	selector.run_auton();
-	// redPosSide();
+
 	console.focus();
-	// stakeMotors.move_absolute(250, 70);
-	// tuneAngularPID();
-	// tuneLinearPID();
 
 }
 
@@ -125,23 +118,17 @@ void autonomous() {
  */
 void opcontrol() {
 
-	// console.focus();
 	colorSorting.suspend();
-	// stakeStateMachine.resume();
+
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	while (true) {
 
 		chassis.arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
-		// chassis.arcade((master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)-master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))*127,(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)-master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))*127);
-		// chassis.tank(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
 		intakeControl();
         stakeControl();
 		doinkerControl();
 		clampControl();
-		// toggleAutoClamp();
-
-
 
         pros::delay(20);
 	}
